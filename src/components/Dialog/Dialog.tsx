@@ -113,14 +113,23 @@ export function Dialog({
           transition: Transition,
         }}
         sx={{
-          width: "100%",
-          maxWidth: { xs: "100%", md: "500px" },
-          margin: { xs: "0", md: "auto" },
-          padding: { xs: "0", md: "20px" },
+          "& .MuiDialog-paper": {
+            width: "100%",
+            maxWidth: { xs: "95%", sm: "90%", md: "500px" },
+            margin: { xs: "10px", md: "auto" },
+            borderRadius: { xs: "8px", md: "12px" },
+            overflowY: "auto",
+          },
         }}
+        fullScreen={isMobile}
+        fullWidth
         onClose={handleCancel}
       >
-        {title && <DialogTitle>{title}</DialogTitle>}
+        {title && (
+          <DialogTitle sx={{ pt: { xs: 2, md: 3 }, px: { xs: 2, md: 3 } }}>
+            {title}
+          </DialogTitle>
+        )}
         <CloseButton onClick={handleCancel} />
         <DialogContent
           sx={{
@@ -128,13 +137,14 @@ export function Dialog({
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
-            minHeight: "200px",
-            minWidth: isMobile ? "100%" : "500px",
+            minHeight: { xs: "150px", md: "200px" },
+            p: { xs: 2, md: 3 },
+            overflowX: "hidden",
           }}
         >
           {loading ? (
             <Box>
-              <CircularProgress size={92} />
+              <CircularProgress size={isMobile ? 64 : 92} />
             </Box>
           ) : (
             children
@@ -145,8 +155,11 @@ export function Dialog({
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: { xs: "center", md: "flex-end" },
-              gap: 2,
+              justifyContent: { xs: "space-between", md: "flex-end" },
+              gap: { xs: 1, md: 2 },
+              p: { xs: 2, md: 2 },
+              flexDirection: { xs: "column", sm: "row" },
+              width: "100%",
             }}
           >
             <Button
@@ -154,7 +167,9 @@ export function Dialog({
               color="error"
               variant="outlined"
               sx={{
-                width: { xs: "100%", md: "auto" },
+                width: { xs: "100%", sm: "auto" },
+                mb: { xs: 1, sm: 0 },
+                order: { xs: 2, sm: 1 },
               }}
             >
               {dismissText}
@@ -165,7 +180,8 @@ export function Dialog({
               variant="contained"
               disabled={disabled}
               sx={{
-                width: { xs: "100%", md: "auto" },
+                width: { xs: "100%", sm: "auto" },
+                order: { xs: 1, sm: 2 },
               }}
             >
               {confirmText}

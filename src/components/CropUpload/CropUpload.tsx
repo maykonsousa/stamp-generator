@@ -4,7 +4,13 @@ import React, { useState, useRef, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { Box, Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { AddPhotoAlternateTwoTone } from "@mui/icons-material";
 import { Dialog } from "../Dialog";
@@ -32,9 +38,19 @@ export function CropUpload({
 }: DragCropImageProps) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const cropperRef = useRef<ReactCropperElement | null>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { width, height } = sizeEnum[typeImg];
   const { setValue, control } = useFormContext();
+
+  // Cálculo de dimensões responsivas
+  const responsiveWidth = isMobile
+    ? Math.min(width, window.innerWidth - 40)
+    : width;
+  const responsiveHeight = isMobile
+    ? (responsiveWidth * height) / width
+    : height;
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -83,8 +99,10 @@ export function CropUpload({
               flexDirection: "column",
               alignItems: "center",
               width: "100%",
-              maxWidth: { xs: "100%", md: width * 1.5 },
-              maxHeight: { xs: height * 1.5, md: height },
+              maxWidth: "100%",
+              overflow: "hidden",
+              px: { xs: 1, sm: 2 },
+              py: { xs: 2, sm: 3 },
             }}
           >
             {!imageSrc ? (
@@ -92,24 +110,36 @@ export function CropUpload({
                 {...getRootProps()}
                 sx={{
                   border: "2px dashed #ccc",
-                  padding: { xs: "10px", md: "20px" },
+                  borderRadius: "8px",
+                  padding: { xs: "10px", sm: "15px", md: "20px" },
                   textAlign: "center",
                   cursor: "pointer",
-                  width: { xs: "100%", md: width },
-                  height: { xs: height - 30, md: height },
+                  width: "100%",
+                  height: { xs: 200, sm: 250, md: responsiveHeight },
+                  maxWidth: { xs: "100%", md: responsiveWidth },
                   margin: "0 auto",
                   position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  transition: "border-color 0.3s ease",
+                  "&:hover": {
+                    borderColor: theme.palette.primary.main,
+                  },
                 }}
               >
                 <input {...getInputProps()} />
-                <p>Arraste e solte uma imagem ou clique para selecionar</p>
+                <Typography
+                  variant={isMobile ? "body2" : "body1"}
+                  sx={{ mb: 1 }}
+                >
+                  Arraste e solte uma imagem ou clique para selecionar
+                </Typography>
                 <AddPhotoAlternateTwoTone
                   sx={{
-                    fontSize: { xs: "2rem", md: "3rem" },
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
+                    fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+                    color: "text.secondary",
                     transition: "color 0.3s ease",
                     "&:hover": { color: "primary.main" },
                   }}
@@ -122,25 +152,35 @@ export function CropUpload({
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
+                  width: "100%",
+                  overflow: "hidden",
                 }}
               >
                 <Cropper
                   src={imageSrc}
                   ref={cropperRef}
                   style={{
-                    height,
-                    width,
+                    height: responsiveHeight,
+                    width: responsiveWidth,
+                    maxWidth: "100%",
                   }}
                   aspectRatio={width / height}
-                  guides={false}
+                  guides={true}
                   viewMode={1}
+                  responsive={true}
                   alt="Imagem para recorte"
+                  zoomable={true}
+                  scalable={true}
                 />
                 <Button
                   onClick={() => setImageSrc(null)}
-                  sx={{ marginTop: "10px" }}
+                  sx={{
+                    marginTop: { xs: 1, sm: 2 },
+                    width: { xs: "100%", sm: "auto" },
+                  }}
                   variant="outlined"
                   color="error"
+                  size={isMobile ? "small" : "medium"}
                   aria-label="Limpar imagem"
                 >
                   Limpar

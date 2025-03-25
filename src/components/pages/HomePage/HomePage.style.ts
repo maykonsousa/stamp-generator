@@ -6,23 +6,37 @@ export const PageContainer = styled(Box)`
   align-items: center;
   justify-content: center;
   width: 100%;  
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 2rem;
-  gap: 1rem;
+  gap: 1.5rem;
 
   @media (max-width: 768px) {
     padding: 1rem;
+    gap: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+    gap: 0.75rem;
   }
 `;
 
 export const Title = styled(Typography)`
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
   color: ${({ theme }) => theme.palette.text.primary};
   text-align: center;
-
+  margin-bottom: 1rem;
 
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -34,10 +48,20 @@ export const BoxContainer = styled(Box)`
   width: 100%;
   max-width: 500px;
   border: 2px solid ${({ theme }) => theme.palette.divider};
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 
   @media (max-width: 768px) {
-    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 480px) {
     max-width: 100%;
+    padding: 0.5rem;
   }
 `;
 
@@ -52,10 +76,17 @@ export const ImageContainer = styled(Box)`
   border-radius: 50%;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 
   @media (max-width: 768px) {
-    width: 280px;
-    height: 280px;
+    width: 320px;
+    height: 320px;
+  }
+
+  @media (max-width: 480px) {
+    width: 260px;
+    height: 260px;
   }
 `;
 
@@ -66,6 +97,12 @@ export const ActionContainer = styled(Box)`
   justify-content: center;
   width: 100%;
   max-width: 500px;
+  margin-bottom: 0.5rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 `;
 
 interface StampContainerProps {
@@ -100,4 +137,8 @@ export const StampText = styled(Typography)<StampTextProps>`
   width: 100%;
   height: 100%;
   display: flex;
+
+  @media (max-width: 480px) {
+    font-size: 1.25rem;
+  }
 `
