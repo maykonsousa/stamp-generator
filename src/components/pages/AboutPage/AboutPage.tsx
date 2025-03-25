@@ -127,10 +127,10 @@ export const AboutPage = () => {
                 <WhatsApp fontSize={isMobile ? "medium" : "large"} />
               </IconButton>
               <IconButton
-                aria-label="whatsapp"
+                aria-label="Site Pessoal"
                 color="primary"
                 component={Link}
-                href="https://wa.me/55619929432979"
+                href="https://maykonsousa.dev.br"
                 target="_blank"
               >
                 <Language fontSize={isMobile ? "medium" : "large"} />
@@ -174,7 +174,7 @@ export const AboutPage = () => {
               description:
                 "Meu site pessoal. Confesso que anda oum pouco abandonado mas logo eu vou retomar o seu Desenvolvimento",
               image: "/site.png",
-              link: "https://maykon.sousa.dev.br",
+              link: "https://maykonsousa.dev.br",
             },
 
             {
