@@ -1,0 +1,1 @@
+export { CurvedInsideText } from "./CurvedInsideText";
