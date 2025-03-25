@@ -4,6 +4,7 @@ import React from "react";
 import { Metadata } from "next";
 import { DefaultLayoutContainer, Main, PageContainer } from "./layout.styles";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_METADATA_URL ?? ""),
@@ -38,6 +39,7 @@ export default async function RootLayout({
             <DefaultLayoutContainer>
               <Header />
               <Main>{children}</Main>
+              <Footer />
             </DefaultLayoutContainer>
           </PageContainer>
         </body>

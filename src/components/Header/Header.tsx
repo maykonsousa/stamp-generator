@@ -36,6 +36,11 @@ export function Header() {
       href: "/",
       isActive: path === "/",
     },
+    {
+      label: "Sobre o autor",
+      href: "/about",
+      isActive: path === "/about",
+    },
   ];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
