@@ -10,6 +10,11 @@ export const PageContainer = styled(Box)`
   min-height: 100vh;
   position: relative;
 
+
+  @media (max-width: 768px) {
+    padding: 0 8px;
+  }
+
   &::-webkit-scrollbar {
     width: 0.5em;
   }
@@ -49,6 +54,10 @@ export const DefaultLayoutContainer = styled(Box)`
     background-color: ${({ theme }) => theme.palette.primary.main};
     border-radius: 4px;
   }
+
+  @media (max-width: 768px) {
+    padding: 0 8px;
+  }
 `;
 
 export const Main = styled(Box)`
@@ -59,6 +68,10 @@ export const Main = styled(Box)`
   width: 100%;
   padding: 90px 2rem;
   margin-top: 70px;
+
+  @media (max-width: 768px) {
+    padding: 0 8px;
+  }
 
   &::-webkit-scrollbar {
     width: 0.5em;
@@ -74,6 +87,10 @@ export const Main = styled(Box)`
 
   @media (max-width: 1400px) {
     padding: 0 1rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 8px;
   }
 `;
 

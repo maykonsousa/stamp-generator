@@ -5,15 +5,25 @@ export const PageContainer = styled(Box)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 100%;  
   padding: 2rem;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 `;
 
 export const Title = styled(Typography)`
   font-size: 1.5rem;
   font-weight: 600;
   color: ${({ theme }) => theme.palette.text.primary};
+  text-align: center;
+
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const BoxContainer = styled(Box)`
@@ -24,6 +34,11 @@ export const BoxContainer = styled(Box)`
   width: 100%;
   max-width: 500px;
   border: 2px solid ${({ theme }) => theme.palette.divider};
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+  }
 `;
 
 export const ImageContainer = styled(Box)`
@@ -37,6 +52,11 @@ export const ImageContainer = styled(Box)`
   border-radius: 50%;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    width: 280px;
+    height: 280px;
+  }
 `;
 
 export const ActionContainer = styled(Box)`
