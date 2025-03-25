@@ -112,7 +112,12 @@ export function Dialog({
         slots={{
           transition: Transition,
         }}
-        sx={{ width: "100%" }}
+        sx={{
+          width: "100%",
+          maxWidth: { xs: "100%", md: "500px" },
+          margin: { xs: "0", md: "auto" },
+          padding: { xs: "0", md: "20px" },
+        }}
         onClose={handleCancel}
       >
         {title && <DialogTitle>{title}</DialogTitle>}
@@ -136,8 +141,22 @@ export function Dialog({
           )}
         </DialogContent>
         {!hideActions && (
-          <DialogActions>
-            <Button onClick={handleCancel} color="error" variant="outlined">
+          <DialogActions
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: { xs: "center", md: "flex-end" },
+              gap: 2,
+            }}
+          >
+            <Button
+              onClick={handleCancel}
+              color="error"
+              variant="outlined"
+              sx={{
+                width: { xs: "100%", md: "auto" },
+              }}
+            >
               {dismissText}
             </Button>
             <Button
@@ -145,6 +164,9 @@ export function Dialog({
               color="primary"
               variant="contained"
               disabled={disabled}
+              sx={{
+                width: { xs: "100%", md: "auto" },
+              }}
             >
               {confirmText}
             </Button>

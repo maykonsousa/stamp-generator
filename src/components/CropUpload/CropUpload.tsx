@@ -83,8 +83,8 @@ export function CropUpload({
               flexDirection: "column",
               alignItems: "center",
               width: "100%",
-              maxWidth: width * 1.5,
-              maxHeight: height * 1.5,
+              maxWidth: { xs: "100%", md: width * 1.5 },
+              maxHeight: { xs: height * 1.5, md: height },
             }}
           >
             {!imageSrc ? (
@@ -92,11 +92,11 @@ export function CropUpload({
                 {...getRootProps()}
                 sx={{
                   border: "2px dashed #ccc",
-                  padding: "20px",
+                  padding: { xs: "10px", md: "20px" },
                   textAlign: "center",
                   cursor: "pointer",
-                  width,
-                  height,
+                  width: { xs: "100%", md: width },
+                  height: { xs: height - 30, md: height },
                   margin: "0 auto",
                   position: "relative",
                 }}
@@ -105,7 +105,7 @@ export function CropUpload({
                 <p>Arraste e solte uma imagem ou clique para selecionar</p>
                 <AddPhotoAlternateTwoTone
                   sx={{
-                    fontSize: "3rem",
+                    fontSize: { xs: "2rem", md: "3rem" },
                     position: "absolute",
                     top: "50%",
                     left: "50%",
@@ -116,7 +116,14 @@ export function CropUpload({
                 />
               </Box>
             ) : (
-              <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <Cropper
                   src={imageSrc}
                   ref={cropperRef}
