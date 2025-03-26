@@ -100,8 +100,9 @@ export const HomePage = () => {
         <Title variant={isMobile ? "h5" : "h4"}>
           Gere sua imagem de perfil
         </Title>
-        <BoxContainer ref={imageContainerRef}>
+        <BoxContainer>
           <ImageContainer
+            ref={imageContainerRef}
             sx={{
               backgroundImage: `url(${image})`,
               backgroundSize: "cover",
