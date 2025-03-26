@@ -27,6 +27,7 @@ import {
   AddPhotoAlternateTwoTone,
   DownloadRounded,
   RestartAltRounded,
+  Share as ShareIcon,
 } from "@mui/icons-material";
 import { MuiColorInput } from "mui-color-input";
 import { TextInput } from "@/components/TextInput";
@@ -41,12 +42,26 @@ interface IFormValues {
   format: "circle" | "square";
 }
 
-const defaultValues: IFormValues = {
-  image: "",
-  stamp: "#OpenToWork",
-  stampBgColor: "#4B9429",
-  stampTextColor: "#FFFFFF",
-  format: "circle",
+const getDefaultValuesFromURL = (): IFormValues => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    image: "",  // Não carregamos a imagem da URL
+    stamp: urlParams.get("stamp") || "#OpenToWork",
+    stampBgColor: urlParams.get("stampBgColor") || "#4B9429",
+    stampTextColor: urlParams.get("stampTextColor") || "#FFFFFF",
+    format: (urlParams.get("format") as "circle" | "square") || "circle",
+  };
+};
+
+const defaultValues: IFormValues = getDefaultValuesFromURL();
+
+const generateShareableURL = (values: IFormValues) => {
+  const url = new URL(window.location.href);
+  url.searchParams.set("stamp", values.stamp);
+  url.searchParams.set("stampBgColor", values.stampBgColor);
+  url.searchParams.set("stampTextColor", values.stampTextColor);
+  url.searchParams.set("format", values.format);
+  return url.toString();
 };
 
 export const HomePage = () => {
@@ -57,7 +72,7 @@ export const HomePage = () => {
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const onReset = () => {
-    methods.reset(defaultValues);
+    methods.reset(getDefaultValuesFromURL());
   };
 
   const image = methods.watch("image");
@@ -92,6 +107,13 @@ export const HomePage = () => {
         console.error("Erro ao gerar a imagem:", error);
       }
     }
+  };
+
+  const handleShare = () => {
+    const shareableURL = generateShareableURL(methods.getValues());
+    navigator.clipboard.writeText(shareableURL).then(() => {
+      alert("URL copiada para a área de transferência!");
+    });
   };
 
   return (
@@ -273,6 +295,16 @@ export const HomePage = () => {
             size={isMobile ? "small" : "medium"}
           >
             Download
+          </Button>
+          <Button
+            variant="contained"
+            fullWidth
+            color="secondary"
+            onClick={handleShare}
+            startIcon={<ShareIcon />}
+            size={isMobile ? "small" : "medium"}
+          >
+            Compartilhar
           </Button>
         </ActionContainer>
       </PageContainer>
