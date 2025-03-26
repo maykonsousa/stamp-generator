@@ -32,7 +32,6 @@ import { MuiColorInput } from "mui-color-input";
 import { TextInput } from "@/components/TextInput";
 import { CurvedInsideText } from "@/components/CurvedInsideText";
 import html2canvas from "html2canvas";
-import { isNull } from "util";
 
 interface IFormValues {
   image: string;
