@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, Suspense } from "react";
 import {
   ActionContainer,
   BoxContainer,
@@ -22,6 +22,7 @@ import {
   useTheme,
   Snackbar,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { CropUpload } from "@/components/CropUpload";
@@ -45,7 +46,7 @@ interface IFormValues {
   format: "circle" | "square";
 }
 
-export const HomePage = () => {
+function HomePageContent() {
   const searchParams = useSearchParams();
   const [showShareSuccess, setShowShareSuccess] = React.useState(false);
 
@@ -53,13 +54,13 @@ export const HomePage = () => {
     return {
       image: "",
       stamp: searchParams.get("stamp")
-        ? decodeURIComponent(searchParams.get("stamp") || "")
+        ? decodeURIComponent(searchParams.get("stamp") || "#OPENTOWORK")
         : "#OPENTOWORK",
       stampBgColor: searchParams.get("bgColor")
-        ? decodeURIComponent(searchParams.get("bgColor") || "")
+        ? decodeURIComponent(searchParams.get("bgColor") || "#4B9429")
         : "#4B9429",
       stampTextColor: searchParams.get("textColor")
-        ? decodeURIComponent(searchParams.get("textColor") || "")
+        ? decodeURIComponent(searchParams.get("textColor") || "#FFFFFF")
         : "#FFFFFF",
       format: searchParams.get("format")
         ? (decodeURIComponent(searchParams.get("format") || "") as
@@ -142,21 +143,14 @@ export const HomePage = () => {
     <FormProvider {...methods}>
       <PageContainer>
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={showShareSuccess}
-          autoHideDuration={8000}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           onClose={() => setShowShareSuccess(false)}
         >
-          <Alert
-            severity="success"
-            sx={{
-              width: "100%",
-              fontSize: { xs: "1rem", md: "1.2rem" },
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            Seu link já foi copiado. Basta compartilhar com seus amigos!
+          <Alert severity="success" sx={{ width: "100%" }}>
+            O link para o seu template já foi copiado! Agora mande para os seus
+            amigos criarem as fotos com o seu selo.
           </Alert>
         </Snackbar>
         <Title variant={isMobile ? "h5" : "h4"}>
@@ -344,18 +338,42 @@ export const HomePage = () => {
           >
             Download
           </Button>
+        </ActionContainer>
+        <ActionContainer>
           <Button
             variant="outlined"
             fullWidth
-            color="primary"
+            color="info"
             onClick={handleShare}
+            disabled={!image}
             startIcon={<ShareRounded />}
             size={isMobile ? "small" : "medium"}
           >
-            Compartilhar
+            Compartilhar Template
           </Button>
         </ActionContainer>
       </PageContainer>
     </FormProvider>
+  );
+}
+
+export const HomePage = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "100vh",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <HomePageContent />
+    </Suspense>
   );
 };
