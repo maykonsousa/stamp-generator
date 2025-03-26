@@ -83,9 +83,9 @@ export const HomePage = () => {
           scale: 2,
         });
 
-        const dataUrl = canvas.toDataURL("image/jpeg", 1.0);
+        const dataUrl = canvas.toDataURL("image/png", 1.0);
         const link = document.createElement("a");
-        link.download = `stamp-${new Date().getTime()}.jpg`;
+        link.download = `stamp-${new Date().getTime()}.png`;
         link.href = dataUrl;
         link.click();
       } catch (error) {
