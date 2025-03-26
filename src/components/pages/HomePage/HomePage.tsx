@@ -6,12 +6,17 @@ import {
   BoxContainer,
   ImageContainer,
   PageContainer,
+  StampContainer,
+  StampText,
   Title,
 } from "./HomePage.style";
 import {
   Box,
   Button,
+  FormControlLabel,
   IconButton,
+  Radio,
+  RadioGroup,
   Typography,
   useMediaQuery,
   useTheme,
@@ -27,12 +32,14 @@ import { MuiColorInput } from "mui-color-input";
 import { TextInput } from "@/components/TextInput";
 import { CurvedInsideText } from "@/components/CurvedInsideText";
 import html2canvas from "html2canvas";
+import { isNull } from "util";
 
 interface IFormValues {
   image: string;
   stamp: string;
   stampBgColor: string;
   stampTextColor: string;
+  format: "circle" | "square";
 }
 
 const defaultValues: IFormValues = {
@@ -40,6 +47,7 @@ const defaultValues: IFormValues = {
   stamp: "#OpenToWork",
   stampBgColor: "#4B9429",
   stampTextColor: "#FFFFFF",
+  format: "circle",
 };
 
 export const HomePage = () => {
@@ -57,6 +65,7 @@ export const HomePage = () => {
   const stamp = methods.watch("stamp");
   const stampBgColor = methods.watch("stampBgColor");
   const stampTextColor = methods.watch("stampTextColor");
+  const format = methods.watch("format");
 
   const onChangeBgColor = (color: string) => {
     methods.setValue("stampBgColor", color.toUpperCase());
@@ -98,6 +107,7 @@ export const HomePage = () => {
               backgroundImage: `url(${image})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
+              borderRadius: format === "circle" ? "50%" : "10px",
             }}
           >
             {!image ? (
@@ -131,17 +141,25 @@ export const HomePage = () => {
                 name="image"
               />
             ) : (
-              <CurvedInsideText
-                text={stamp}
-                radius={isMobile ? 70 : isTablet ? 80 : 90}
-                startAngle={170}
-                charRotation={270}
-                kerning={isMobile ? 6 : 8}
-                fontSize={isMobile ? 24 : isTablet ? 28 : 32}
-                fontWeight={700}
-                textColor={stampTextColor}
-                backgroundColor={stampBgColor}
-              />
+              <>
+                {format === "circle" ? (
+                  <CurvedInsideText
+                    text={stamp}
+                    radius={isMobile ? 70 : isTablet ? 80 : 90}
+                    startAngle={170}
+                    charRotation={270}
+                    kerning={isMobile ? 6 : 8}
+                    fontSize={isMobile ? 24 : isTablet ? 28 : 32}
+                    fontWeight={700}
+                    textColor={stampTextColor}
+                    backgroundColor={stampBgColor}
+                  />
+                ) : (
+                  <StampContainer color={stampBgColor}>
+                    <StampText color={stampTextColor}>{stamp}</StampText>
+                  </StampContainer>
+                )}
+              </>
             )}
           </ImageContainer>
         </BoxContainer>
@@ -152,6 +170,60 @@ export const HomePage = () => {
         >
           Personalize seu selo
         </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around",
+            width: "100%",
+            maxWidth: 500,
+            border: "1px solid",
+            borderColor: "divider",
+            borderRadius: 1,
+            p: 1,
+            gap: 1,
+            position: "relative",
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              position: "absolute",
+              top: -10,
+              left: 12,
+              color: "text.secondary",
+              backgroundColor: "background.paper",
+              padding: "0 4px",
+              borderRadius: 1,
+            }}
+          >
+            Formato
+          </Typography>
+          <RadioGroup
+            row
+            value={format}
+            onChange={(e) =>
+              methods.setValue("format", e.target.value as "circle" | "square")
+            }
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              width: "100%",
+            }}
+          >
+            <FormControlLabel
+              value="circle"
+              control={<Radio />}
+              label="Circle"
+            />
+            <FormControlLabel
+              value="square"
+              control={<Radio />}
+              label="Square"
+            />
+          </RadioGroup>
+        </Box>
+
         <ActionContainer>
           <TextInput
             label="Texto do selo"

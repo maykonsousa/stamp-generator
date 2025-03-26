@@ -73,7 +73,6 @@ export const ImageContainer = styled(Box)`
   width: 400px;
   height: 400px;
   background-color: ${({ theme }) => theme.palette.background.paper};
-  border-radius: 50%;
   position: relative;
   overflow: hidden;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -115,23 +114,26 @@ interface StampTextProps {
 
 export const StampContainer = styled(Box)<StampContainerProps>`
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 0;
+    left: 0;
     background: radial-gradient(
       circle at center,
       ${({ color }) => color} 70%,
       ${({ color }) => color}aa 85%,
       transparent 100%
     );
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 2.5rem;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
    
 `;
 
 export const StampText = styled(Typography)<StampTextProps>`
   color: ${({ color }) => color};
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 600;
   text-align: center;
   width: 100%;
