@@ -24,12 +24,9 @@ export const CurvedInsideText = ({
   fontWeight = "bold",
   backgroundColor = "transparent",
 }: CurvedInsideTextProps) => {
-  const formattedText = text.startsWith("#") ? text : `#${text}`;
-  const chars = formattedText.split("");
-  const totalAngle = (chars.length * kerning) % 360;
-
-  // Aumentando o raio base para aproximar da borda
-  const baseRadius = radius * 2; // Aumentando o raio em 15%
+  const chars = text.split("");
+  const totalAngle = Math.min(chars.length * kerning, 240);
+  const baseRadius = radius * 2;
 
   const createCurvedText = () => {
     return chars.map((char, i) => {
@@ -59,9 +56,8 @@ export const CurvedInsideText = ({
     });
   };
 
-  // Calculando os pontos do arco de fundo com ajuste maior nos ângulos
-  const backgroundStartAngle = startAngle + 10; // Aumentando o ajuste do ângulo inicial
-  const backgroundEndAngle = startAngle - totalAngle - 5;
+  const backgroundStartAngle = startAngle + 15;
+  const backgroundEndAngle = startAngle - totalAngle - 15;
 
   const startRad = (backgroundStartAngle * Math.PI) / 180;
   const endRad = (backgroundEndAngle * Math.PI) / 180;
@@ -74,12 +70,6 @@ export const CurvedInsideText = ({
   const maxRadius = baseRadius + fontSize;
 
   const gradientId = `path-gradient-${text.replace(/[^a-zA-Z0-9]/g, "")}`;
-
-  const angleRad = Math.abs(endRad - startRad);
-  const gradientX1 = baseRadius * Math.cos(startRad + angleRad * 0.1);
-  const gradientY1 = baseRadius * Math.sin(startRad + angleRad * 0.1);
-  const gradientX2 = baseRadius * Math.cos(endRad - angleRad * 0.1);
-  const gradientY2 = baseRadius * Math.sin(endRad - angleRad * 0.1);
 
   return (
     <Box
@@ -110,16 +100,14 @@ export const CurvedInsideText = ({
           </clipPath>
           <linearGradient
             id={gradientId}
-            x1={gradientX1}
-            y1={gradientY1}
-            x2={gradientX2}
-            y2={gradientY2}
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="0%"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor={backgroundColor} stopOpacity="0.3" />
-            <stop offset="20%" stopColor={backgroundColor} stopOpacity="1" />
-            <stop offset="80%" stopColor={backgroundColor} stopOpacity="1" />
-            <stop offset="100%" stopColor={backgroundColor} stopOpacity="0.3" />
+            <stop offset="0%" stopColor={backgroundColor} />
+            <stop offset="100%" stopColor={backgroundColor} />
           </linearGradient>
         </defs>
         <g>
@@ -132,7 +120,7 @@ export const CurvedInsideText = ({
             `}
             fill="none"
             stroke={`url(#${gradientId})`}
-            strokeWidth={fontSize}
+            strokeWidth={fontSize * 1.5}
             strokeLinecap="round"
           />
         </g>

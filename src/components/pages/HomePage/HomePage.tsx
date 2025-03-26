@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import {
   ActionContainer,
   BoxContainer,
@@ -20,6 +20,8 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { CropUpload } from "@/components/CropUpload";
@@ -27,12 +29,13 @@ import {
   AddPhotoAlternateTwoTone,
   DownloadRounded,
   RestartAltRounded,
-  Share as ShareIcon,
+  ShareRounded,
 } from "@mui/icons-material";
 import { MuiColorInput } from "mui-color-input";
 import { TextInput } from "@/components/TextInput";
 import { CurvedInsideText } from "@/components/CurvedInsideText";
 import html2canvas from "html2canvas";
+import { useSearchParams } from "next/navigation";
 
 interface IFormValues {
   image: string;
@@ -42,29 +45,30 @@ interface IFormValues {
   format: "circle" | "square";
 }
 
-const getDefaultValuesFromURL = (): IFormValues => {
-  const urlParams = new URLSearchParams(window.location.search);
-  return {
-    image: "",  // Não carregamos a imagem da URL
-    stamp: urlParams.get("stamp") || "#OpenToWork",
-    stampBgColor: urlParams.get("stampBgColor") || "#4B9429",
-    stampTextColor: urlParams.get("stampTextColor") || "#FFFFFF",
-    format: (urlParams.get("format") as "circle" | "square") || "circle",
-  };
-};
-
-const defaultValues: IFormValues = getDefaultValuesFromURL();
-
-const generateShareableURL = (values: IFormValues) => {
-  const url = new URL(window.location.href);
-  url.searchParams.set("stamp", values.stamp);
-  url.searchParams.set("stampBgColor", values.stampBgColor);
-  url.searchParams.set("stampTextColor", values.stampTextColor);
-  url.searchParams.set("format", values.format);
-  return url.toString();
-};
-
 export const HomePage = () => {
+  const searchParams = useSearchParams();
+  const [showShareSuccess, setShowShareSuccess] = React.useState(false);
+
+  const defaultValues: IFormValues = useMemo(() => {
+    return {
+      image: "",
+      stamp: searchParams.get("stamp")
+        ? decodeURIComponent(searchParams.get("stamp") || "")
+        : "#OPENTOWORK",
+      stampBgColor: searchParams.get("bgColor")
+        ? decodeURIComponent(searchParams.get("bgColor") || "")
+        : "#4B9429",
+      stampTextColor: searchParams.get("textColor")
+        ? decodeURIComponent(searchParams.get("textColor") || "")
+        : "#FFFFFF",
+      format: searchParams.get("format")
+        ? (decodeURIComponent(searchParams.get("format") || "") as
+            | "circle"
+            | "square")
+        : "circle",
+    };
+  }, [searchParams]);
+
   const methods = useForm<IFormValues>({ defaultValues });
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
@@ -72,7 +76,7 @@ export const HomePage = () => {
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const onReset = () => {
-    methods.reset(getDefaultValuesFromURL());
+    methods.reset(defaultValues);
   };
 
   const image = methods.watch("image");
@@ -109,16 +113,52 @@ export const HomePage = () => {
     }
   };
 
-  const handleShare = () => {
-    const shareableURL = generateShareableURL(methods.getValues());
-    navigator.clipboard.writeText(shareableURL).then(() => {
-      alert("URL copiada para a área de transferência!");
-    });
+  const generateShareUrl = () => {
+    const params = new URLSearchParams();
+    if (stamp) params.append("stamp", encodeURIComponent(stamp));
+    if (stampBgColor)
+      params.append("bgColor", encodeURIComponent(stampBgColor));
+    if (stampTextColor)
+      params.append("textColor", encodeURIComponent(stampTextColor));
+    if (format) params.append("format", encodeURIComponent(format));
+
+    const shareUrl = `${window.location.origin}${
+      window.location.pathname
+    }?${params.toString()}`;
+    return shareUrl;
+  };
+
+  const handleShare = async () => {
+    const shareUrl = generateShareUrl();
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShowShareSuccess(true);
+    } catch (error) {
+      console.error("Erro ao copiar URL:", error);
+    }
   };
 
   return (
     <FormProvider {...methods}>
       <PageContainer>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={showShareSuccess}
+          autoHideDuration={8000}
+          onClose={() => setShowShareSuccess(false)}
+        >
+          <Alert
+            severity="success"
+            sx={{
+              width: "100%",
+              fontSize: { xs: "1rem", md: "1.2rem" },
+              fontWeight: "bold",
+              textAlign: "center",
+            }}
+          >
+            Seu link já foi copiado. Basta compartilhar com seus amigos!
+          </Alert>
+        </Snackbar>
         <Title variant={isMobile ? "h5" : "h4"}>
           Gere sua imagem de perfil
         </Title>
@@ -252,6 +292,14 @@ export const HomePage = () => {
             name="stamp"
             fullWidth
             size={isMobile ? "small" : "medium"}
+            helperText="Máximo de 35 caracteres"
+            slotProps={{
+              input: {
+                inputProps: {
+                  maxLength: 35,
+                },
+              },
+            }}
           />
         </ActionContainer>
         <ActionContainer>
@@ -297,11 +345,11 @@ export const HomePage = () => {
             Download
           </Button>
           <Button
-            variant="contained"
+            variant="outlined"
             fullWidth
-            color="secondary"
+            color="primary"
             onClick={handleShare}
-            startIcon={<ShareIcon />}
+            startIcon={<ShareRounded />}
             size={isMobile ? "small" : "medium"}
           >
             Compartilhar
