@@ -1,7 +1,6 @@
-import { db } from './firebase';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { adminDb } from './firebase-admin';
 
-const COLLECTION_NAME = process.env.NEXT_PUBLIC_FIREBASE_COLLECTION || 'template';
+const COLLECTION_NAME = process.env.FIREBASE_COLLECTION || 'template';
 
 // Função para gerar um código curto único
 function generateShortCode(length: number = 8): string {
@@ -28,7 +27,7 @@ export async function createShortUrl(params: { text: string; backgroundColor: st
   searchParams.append('textColor', params.strokeColor);
   searchParams.append('format', params.format);
   
-  await addDoc(collection(db, COLLECTION_NAME), {
+  await adminDb.collection(COLLECTION_NAME).add({
     shortCode,
     params: searchParams.toString(),
     createdAt: new Date()
@@ -38,15 +37,17 @@ export async function createShortUrl(params: { text: string; backgroundColor: st
 }
 
 export async function getTemplateData(shortCode: string): Promise<TemplateData | null> {
-  const templateRef = collection(db, COLLECTION_NAME);
-  const q = query(templateRef, where('shortCode', '==', shortCode));
-  const querySnapshot = await getDocs(q);
+  const snapshot = await adminDb
+    .collection(COLLECTION_NAME)
+    .where('shortCode', '==', shortCode)
+    .limit(1)
+    .get();
   
-  if (querySnapshot.empty) {
+  if (snapshot.empty) {
     return null;
   }
 
-  const doc = querySnapshot.docs[0];
+  const doc = snapshot.docs[0];
   const data = doc.data();
   return {
     ...data,

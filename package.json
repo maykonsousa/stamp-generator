@@ -14,6 +14,7 @@
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.8",
     "firebase": "^11.5.0",
+    "firebase-admin": "^13.2.0",
     "html2canvas": "^1.4.1",
     "mui-color-input": "^6.0.0",
     "next": "15.2.4",
