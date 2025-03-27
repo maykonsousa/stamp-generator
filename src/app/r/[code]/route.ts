@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getTemplateData } from "@/lib/urlService";
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { code: string } }
 ) {
   const { code } = params;
