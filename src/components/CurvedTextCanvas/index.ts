@@ -1,0 +1,1 @@
+export { CurvedTextCanvas } from "./CurvedTextCanvas";

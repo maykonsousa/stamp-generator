@@ -97,9 +97,6 @@ function HomePageContent() {
   const handleDownload = async () => {
     if (imageContainerRef.current) {
       try {
-        // Salva o template primeiro
-        await generateShareUrl();
-
         // Depois faz o download
         const canvas = await html2canvas(imageContainerRef.current, {
           backgroundColor: null,

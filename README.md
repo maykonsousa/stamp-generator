@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gerador de Carimbos
 
-## Getting Started
+Este é um projeto desenvolvido com Next.js que permite a criação e gerenciamento de carimbos digitais.
 
-First, run the development server:
+## 🚀 Tecnologias Utilizadas
+
+- [Next.js](https://nextjs.org) - Framework React para produção
+- TypeScript - Superset JavaScript com tipagem estática
+- [Material-UI (MUI)](https://mui.com/) - Biblioteca de componentes React
+- [Emotion](https://emotion.sh/) - Biblioteca para estilização CSS-in-JS
+- [Firebase](https://firebase.google.com/) - Plataforma de desenvolvimento backend
+  - Firestore - Banco de dados NoSQL para armazenamento dos carimbos e geração de URLs encurtadas
+- ESLint - Linter para JavaScript/TypeScript
+
+## 📋 Pré-requisitos
+
+- Node.js 18.x ou superior
+- Yarn ou npm
+- Conta no Firebase com projeto configurado
+
+## 🛠️ Instalação
+
+1. Clone o repositório:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [URL_DO_REPOSITÓRIO]
+cd stamp-generator
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instale as dependências:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn install
+# ou
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Configure as variáveis de ambiente:
 
-## Learn More
+- Copie o arquivo `.env.example` para `.env.local`
+- Preencha as variáveis necessárias do Firebase:
+  ```
+  NEXT_PUBLIC_FIREBASE_API_KEY=
+  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+  NEXT_PUBLIC_FIREBASE_APP_ID=
+  ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Inicie o servidor de desenvolvimento:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+yarn dev
+# ou
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Acesse [http://localhost:3000](http://localhost:3000) para visualizar o projeto.
 
-## Deploy on Vercel
+## 🔥 Backend API Router
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Temos um pequeno backend com duas rotas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+POST api/shorten onde salvamos os parametros usados para a confecção do carimbo
+
+```JSON
+{
+""text"", backgroundColor, strokeColor, format
+}
+
+```
+
+O projeto utiliza o Firebase Firestore como backend, oferecendo as seguintes funcionalidades:
+
+- **Armazenamento de Carimbos**: Salvamento dos dados dos carimbos gerados
+- **URLs Encurtadas**: Geração de códigos únicos para compartilhamento dos carimbos
+
+### Configuração do Firebase
+
+1. Crie um projeto no [Firebase Console](https://console.firebase.google.com/)
+2. Ative o serviço Firestore
+3. Configure as regras de segurança do Firestore
+4. Copie as credenciais do projeto para o arquivo `.env.local`
+
+## 📁 Estrutura do Projeto
+
+```
+stamp-generator/
+├── src/              # Código fonte
+│   ├── components/   # Componentes React
+│   ├── pages/        # Páginas da aplicação
+│   ├── services/     # Serviços (Firebase, etc)
+│   └── utils/        # Funções utilitárias
+├── public/           # Arquivos estáticos
+├── .env.local        # Variáveis de ambiente
+└── package.json      # Dependências e scripts
+```
+
+## 🔧 Scripts Disponíveis
+
+- `yarn dev` - Inicia o servidor de desenvolvimento
+- `yarn build` - Cria a build de produção
+- `yarn start` - Inicia o servidor de produção
+- `yarn lint` - Executa o linter
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👥 Contribuição
+
+1. Faça um Fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📞 Suporte
+
+Para suporte, envie um email para [EMAIL_SUPORTE] ou abra uma issue no repositório.
