@@ -3,12 +3,20 @@ import { getFirestore } from 'firebase-admin/firestore';
 
 if (!getApps().length) {
   try {
-    const privateKey = process.env.FIREBASE_PRIVATE_KEY 
-      ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
-      : undefined;
+    let privateKey = process.env.FIREBASE_PRIVATE_KEY;
     
     if (!privateKey) {
       throw new Error('FIREBASE_PRIVATE_KEY não está definida');
+    }
+
+    // Remove possíveis aspas extras e processa as quebras de linha
+    privateKey = privateKey
+      .replace(/^["']|["']$/g, '') // Remove aspas no início e fim
+      .replace(/\\n/g, '\n');      // Substitui \n por quebras de linha reais
+
+    // Verifica se a chave começa com "-----BEGIN PRIVATE KEY-----"
+    if (!privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
+      throw new Error('Formato inválido da chave privada');
     }
 
     initializeApp({
