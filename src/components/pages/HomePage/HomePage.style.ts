@@ -119,7 +119,7 @@ export const StampContainer = styled(Box)<StampContainerProps>`
     background: radial-gradient(
       circle at center,
       ${({ color }) => color} 70%,
-      ${({ color }) => color}aa 85%,
+      ${({ color }) => color} 85%,
       transparent 100%
     );
     padding: 0.5rem 2.5rem;
