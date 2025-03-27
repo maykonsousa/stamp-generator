@@ -114,24 +114,39 @@ function HomePageContent() {
     }
   };
 
-  const generateShareUrl = () => {
-    const params = new URLSearchParams();
-    if (stamp) params.append("stamp", encodeURIComponent(stamp));
-    if (stampBgColor)
-      params.append("bgColor", encodeURIComponent(stampBgColor));
-    if (stampTextColor)
-      params.append("textColor", encodeURIComponent(stampTextColor));
-    if (format) params.append("format", encodeURIComponent(format));
+  const generateShareUrl = async () => {
+    try {
+      const response = await fetch("/api/shorten", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: stamp,
+          backgroundColor: stampBgColor,
+          strokeColor: stampTextColor,
+          format: format,
+        }),
+      });
 
-    const shareUrl = `${window.location.origin}${
-      window.location.pathname
-    }?${params.toString()}`;
-    return shareUrl;
+      console.log("Status da resposta:", response.status);
+      const data = await response.json();
+      console.log("Dados da resposta:", data);
+
+      if (!response.ok) {
+        throw new Error(data.error || "Erro ao encurtar URL");
+      }
+
+      return data.shortUrl;
+    } catch (error) {
+      console.error("Erro ao encurtar URL:", error);
+      throw error;
+    }
   };
 
   const handleShare = async () => {
-    const shareUrl = generateShareUrl();
     try {
+      const shareUrl = await generateShareUrl();
       await navigator.clipboard.writeText(shareUrl);
       setShowShareSuccess(true);
     } catch (error) {
