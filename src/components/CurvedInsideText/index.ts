@@ -1,1 +1,0 @@
-export { CurvedInsideText } from "./CurvedInsideText";

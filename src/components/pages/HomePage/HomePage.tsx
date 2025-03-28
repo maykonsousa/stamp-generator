@@ -176,7 +176,9 @@ function HomePageContent() {
             ref={imageContainerRef}
             sx={{
               borderRadius: format === "circle" ? "50%" : "10px",
-              background: "black",
+              backgroundImage: format === "circle" ? "none" : `url(${image})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           >
             {!image ? (
@@ -294,11 +296,11 @@ function HomePageContent() {
             name="stamp"
             fullWidth
             size={isMobile ? "small" : "medium"}
-            helperText="Máximo de 35 caracteres"
+            helperText={`Textos longos podem ser cortados`}
             slotProps={{
               input: {
                 inputProps: {
-                  maxLength: 35,
+                  maxLength: format === "circle" ? 50 : 18,
                 },
               },
             }}
