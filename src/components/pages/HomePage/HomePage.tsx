@@ -34,9 +34,9 @@ import {
 } from "@mui/icons-material";
 import { MuiColorInput } from "mui-color-input";
 import { TextInput } from "@/components/TextInput";
-import { CurvedInsideText } from "@/components/CurvedInsideText";
 import html2canvas from "html2canvas";
 import { useSearchParams } from "next/navigation";
+import { CircleStamp } from "@/components/CircleStamp";
 
 interface IFormValues {
   image: string;
@@ -74,7 +74,6 @@ function HomePageContent() {
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const onReset = () => {
     methods.reset(defaultValues);
@@ -176,10 +175,8 @@ function HomePageContent() {
           <ImageContainer
             ref={imageContainerRef}
             sx={{
-              backgroundImage: `url(${image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
               borderRadius: format === "circle" ? "50%" : "10px",
+              background: "black",
             }}
           >
             {!image ? (
@@ -215,16 +212,15 @@ function HomePageContent() {
             ) : (
               <>
                 {format === "circle" ? (
-                  <CurvedInsideText
+                  <CircleStamp
+                    imageUrl={image}
                     text={stamp}
-                    radius={isMobile ? 70 : isTablet ? 80 : 90}
-                    startAngle={170}
-                    charRotation={270}
-                    kerning={isMobile ? 6 : 8}
-                    fontSize={isMobile ? 24 : isTablet ? 28 : 32}
-                    fontWeight={700}
+                    size={400}
+                    textBackgroundColor={stampBgColor}
                     textColor={stampTextColor}
-                    backgroundColor={stampBgColor}
+                    fontSize={32}
+                    lineHeight={1.3} // Ajuste para o espaçamento vertical
+                    textPadding={6} // Espaço ao redor do texto
                   />
                 ) : (
                   <StampContainer color={stampBgColor}>
