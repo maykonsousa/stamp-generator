@@ -213,14 +213,10 @@ function HomePageContent() {
               <>
                 {format === "circle" ? (
                   <CircleStamp
-                    imageUrl={image}
+                    image={image}
+                    arcBackgroundColor={stampBgColor}
                     text={stamp}
-                    size={400}
-                    textBackgroundColor={stampBgColor}
                     textColor={stampTextColor}
-                    fontSize={32}
-                    lineHeight={1.3} // Ajuste para o espaçamento vertical
-                    textPadding={6} // Espaço ao redor do texto
                   />
                 ) : (
                   <StampContainer color={stampBgColor}>

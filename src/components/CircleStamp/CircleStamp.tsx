@@ -1,178 +1,100 @@
-import React, { useRef, useLayoutEffect, useState, useMemo } from "react";
+import React from "react";
+import Image from "next/image";
 
 interface CircleStampProps {
-  imageUrl: string;
-  text?: string;
-  size?: number;
-  textBackgroundColor?: string;
-  textColor?: string;
-  fontSize?: number;
-  fontFamily?: string;
-  textPosition?: "bottom" | "top";
-  lineHeight?: number;
-  textPadding?: number;
+  image: string;
+  arcBackgroundColor: string;
+  text: string;
+  textColor: string;
 }
 
-export const CircleStamp: React.FC<CircleStampProps> = ({
-  imageUrl,
-  text = "#feliz",
-  size = 400,
-  textBackgroundColor = "#0A66C2",
-  textColor = "#FFFFFF",
-  fontSize = 36,
-  fontFamily = "Arial, sans-serif",
-  textPosition = "bottom",
-  lineHeight = 1.2,
-  textPadding = 8,
-}) => {
-  const textPathRef = useRef<SVGTextPathElement>(null);
-  const [textLength, setTextLength] = useState<number | null>(null);
-  const textHeight = fontSize * lineHeight;
+export const CircleStamp = ({
+  image,
+  arcBackgroundColor,
+  text,
+  textColor,
+}: CircleStampProps) => {
+  const size = 400; // largura e altura do componente
+  const strokeWidth = 40; // largura da linha do arco
+  const margin = strokeWidth / 2; // margem para que o arco fique totalmente dentro do círculo
+  const center = size / 2; // centro do círculo (200)
+  const arcRadius = center - margin; // raio para o arco, de forma que sua borda externa coincida com o limite do círculo (200 - 20 = 180)
 
-  // Usamos useLayoutEffect para medir o texto antes da pintura da tela
-  useLayoutEffect(() => {
-    if (textPathRef.current) {
-      const length = textPathRef.current.getComputedTextLength();
-      setTextLength(length);
-    }
-  }, [text, fontSize, fontFamily]);
+  // Estimativa da largura do texto (em pixels) com base em um valor médio por caractere
+  const avgCharWidth = 16; // ajuste conforme a fonte usada
+  const textWidth = text.length * avgCharWidth;
 
-  // Função refatorada para calcular os dados do arco, incluindo pontos e path
-  const generateArcData = (radiusOffset: number = 0) => {
-    if (!textLength) return null;
+  // O ângulo necessário (em radianos) para cobrir o comprimento do texto no arco
+  const arcAngle = textWidth / arcRadius;
 
-    const radius = size / 2;
-    // O raio do arco é ajustado para que o comprimento se adeque ao texto
-    const arcRadius = radius * 0.85 - radiusOffset;
-    // Calcula o ângulo do arco baseado no comprimento do texto
-    const arcAngle = (textLength / arcRadius) * 0.9; // ajuste o fator se necessário
+  // Define o ângulo central do arco em que o texto ficará posicionado.
+  // Aqui usamos 90° (ou π/2 radianos), o que posiciona o arco na parte inferior do círculo.
+  const centerAngleDeg = 90;
+  const centerAngleRad = (centerAngleDeg * Math.PI) / 180;
+  const halfArcAngle = arcAngle / 2;
 
-    const baseAngle = textPosition === "bottom" ? Math.PI : 0;
-    const startAngle = baseAngle + (Math.PI - arcAngle) / 2;
-    const endAngle = baseAngle - (Math.PI - arcAngle) / 2;
+  // Calcula os ângulos de início e fim (em radianos)
+  const startAngle = centerAngleRad - halfArcAngle;
+  const endAngle = centerAngleRad + halfArcAngle;
 
-    const startX = radius + arcRadius * Math.cos(startAngle);
-    const startY = radius + arcRadius * Math.sin(startAngle);
-    const endX = radius + arcRadius * Math.cos(endAngle);
-    const endY = radius + arcRadius * Math.sin(endAngle);
+  // Calcula as coordenadas de início e fim para o comando do arco
+  const startX = center + arcRadius * Math.cos(startAngle);
+  const startY = center + arcRadius * Math.sin(startAngle);
+  const endX = center + arcRadius * Math.cos(endAngle);
+  const endY = center + arcRadius * Math.sin(endAngle);
 
-    const largeArcFlag = arcAngle > Math.PI ? 1 : 0;
-    const sweepFlag = textPosition === "bottom" ? 0 : 1;
+  // Define o flag de "large arc" (1 se o ângulo for maior que 180°)
+  const largeArcFlag = arcAngle > Math.PI ? 1 : 0;
 
-    const path = `M ${startX},${startY} A ${arcRadius},${arcRadius} 0 ${largeArcFlag},${sweepFlag} ${endX},${endY}`;
-
-    return { path, startX, startY, endX, endY, arcRadius, arcAngle };
-  };
-
-  // Memorizamos os cálculos do arco para o fundo e para o caminho do texto
-  const arcData = useMemo(
-    () => generateArcData(0),
-    [textLength, size, textPosition, text]
-  );
-  const textArcData = useMemo(
-    () => generateArcData((textHeight + textPadding * 2) / 2),
-    [textLength, size, textPosition, text, textHeight, textPadding]
-  );
+  // Cria o caminho (path) do arco
+  const arcPath = `M ${startX},${startY} A ${arcRadius},${arcRadius} 0 ${largeArcFlag},1 ${endX},${endY}`;
 
   return (
-    <svg width={size} height={size} xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        {/* Gradiente para as pontas do arco */}
-        {arcData && (
-          <linearGradient
-            id="arcGradient"
-            gradientUnits="userSpaceOnUse"
-            x1={arcData.startX}
-            y1={arcData.startY}
-            x2={arcData.endX}
-            y2={arcData.endY}
-          >
-            <stop offset="0%" stopColor={textBackgroundColor} stopOpacity="0" />
-            <stop
-              offset="10%"
-              stopColor={textBackgroundColor}
-              stopOpacity="1"
-            />
-            <stop
-              offset="90%"
-              stopColor={textBackgroundColor}
-              stopOpacity="1"
-            />
-            <stop
-              offset="100%"
-              stopColor={textBackgroundColor}
-              stopOpacity="0"
-            />
-          </linearGradient>
-        )}
-      </defs>
-
-      {/* Círculo de fundo branco */}
-      <circle cx={size / 2} cy={size / 2} r={size / 2} fill="#FFFFFF" />
-
-      {/* Máscara para a imagem */}
-      <clipPath id="imageClip">
-        <circle cx={size / 2} cy={size / 2} r={size / 2} />
-      </clipPath>
-
-      {/* Imagem central */}
-      <image
-        href={imageUrl}
-        width={size}
-        height={size}
-        x="0"
-        y="0"
-        clipPath="url(#imageClip)"
-        preserveAspectRatio="xMidYMid slice"
+    <div
+      style={{
+        position: "relative",
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: "50%",
+        overflow: "hidden",
+      }}
+    >
+      <Image
+        src={image}
+        alt="profile"
+        fill
+        unoptimized
+        style={{
+          objectFit: "cover",
+        }}
       />
-
-      {/* Medição do texto (hidden) */}
-      {!textLength && (
-        <svg style={{ visibility: "hidden", position: "absolute" }}>
-          <path id="measurePath" d="M 0,0 L 1000,0" />
-          <text>
-            <textPath ref={textPathRef} href="#measurePath">
-              {text}
-            </textPath>
-          </text>
-        </svg>
-      )}
-
-      {/* Renderização final */}
-      {textLength && arcData && textArcData && (
-        <>
-          {/* Arco de fundo que se ajusta ao texto com degradê nas pontas */}
-          <path
-            d={arcData.path}
-            stroke={`url(#arcGradient)`}
-            strokeWidth={textHeight + textPadding * 2}
-            strokeLinecap="round"
-            fill="none"
-          />
-
-          {/* Caminho para o texto, ajustado para centralização vertical */}
-          <path id="textPath" d={textArcData.path} fill="none" stroke="none" />
-
-          {/* Texto curvado, centralizado no arco */}
-          <text
-            fill={textColor}
-            style={{
-              fontSize,
-              fontFamily,
-              fontWeight: "bold",
-            }}
-          >
-            <textPath
-              href="#textPath"
-              startOffset="50%"
-              textAnchor="middle"
-              dominantBaseline="middle"
-            >
-              {text}
-            </textPath>
-          </text>
-        </>
-      )}
-    </svg>
+      <svg
+        viewBox={`0 0 ${size} ${size}`}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <defs>
+          <path id="arcPath" d={arcPath} />
+        </defs>
+        {/* Desenha o arco (o background para o texto) */}
+        <path
+          d={arcPath}
+          fill="none"
+          stroke={arcBackgroundColor}
+          strokeWidth={strokeWidth}
+        />
+        {/* Adiciona o texto seguindo o arco */}
+        <text fill={textColor} fontSize="24" fontWeight="bold">
+          <textPath href="#arcPath" startOffset="50%" textAnchor="middle">
+            {text}
+          </textPath>
+        </text>
+      </svg>
+    </div>
   );
 };
