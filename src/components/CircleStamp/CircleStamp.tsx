@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 interface CircleStampProps {
   image: string;
@@ -8,7 +9,8 @@ interface CircleStampProps {
   textColor: string;
 }
 
-export const CircleStamp = ({
+// Componente interno que será renderizado apenas no cliente
+const CircleStampContent = ({
   image,
   arcBackgroundColor,
   text,
@@ -18,36 +20,70 @@ export const CircleStamp = ({
   const strokeWidth = 40; // largura da linha do arco
   const margin = strokeWidth / 2; // margem para que o arco fique totalmente dentro do círculo
   const center = size / 2; // centro do círculo (200)
-  const arcRadius = center - margin; // raio para o arco, de forma que sua borda externa coincida com o limite do círculo (200 - 20 = 180)
 
-  // Estimativa da largura do texto (em pixels) com base em um valor médio por caractere
-  const avgCharWidth = 16; // ajuste conforme a fonte usada
-  const textWidth = text.length * avgCharWidth;
+  // Apenas o estado do path do arco é necessário
+  const [arcPathState, setArcPathState] = React.useState("");
 
-  // O ângulo necessário (em radianos) para cobrir o comprimento do texto no arco
-  const arcAngle = textWidth / arcRadius;
+  React.useEffect(() => {
+    const arcRadius = center - margin;
+    const avgCharWidth = 20;
 
-  // Define o ângulo central do arco em que o texto ficará posicionado.
-  // Aqui usamos 90° (ou π/2 radianos), o que posiciona o arco na parte inferior do círculo.
-  const centerAngleDeg = 90;
-  const centerAngleRad = (centerAngleDeg * Math.PI) / 180;
-  const halfArcAngle = arcAngle / 2;
+    // Aumentamos a largura do texto em 30% para fazer o arco mais comprido
+    const textWidth = text.length * avgCharWidth * 1.3;
+    const arcAngle = textWidth / arcRadius;
 
-  // Calcula os ângulos de início e fim (em radianos)
-  const startAngle = centerAngleRad - halfArcAngle;
-  const endAngle = centerAngleRad + halfArcAngle;
+    // Alteramos o ângulo central para 45 graus em vez de 90
+    const centerAngleDeg = 135;
+    const centerAngleRad = (centerAngleDeg * Math.PI) / 180;
+    const halfArcAngle = arcAngle / 2;
 
-  // Calcula as coordenadas de início e fim para o comando do arco
-  const startX = center + arcRadius * Math.cos(startAngle);
-  const startY = center + arcRadius * Math.sin(startAngle);
-  const endX = center + arcRadius * Math.cos(endAngle);
-  const endY = center + arcRadius * Math.sin(endAngle);
+    const startAngle = centerAngleRad - halfArcAngle;
+    const endAngle = centerAngleRad + halfArcAngle;
 
-  // Define o flag de "large arc" (1 se o ângulo for maior que 180°)
-  const largeArcFlag = arcAngle > Math.PI ? 1 : 0;
+    const newStartX = center + arcRadius * Math.cos(startAngle);
+    const newStartY = center + arcRadius * Math.sin(startAngle);
+    const newEndX = center + arcRadius * Math.cos(endAngle);
+    const newEndY = center + arcRadius * Math.sin(endAngle);
 
-  // Cria o caminho (path) do arco
-  const arcPath = `M ${startX},${startY} A ${arcRadius},${arcRadius} 0 ${largeArcFlag},1 ${endX},${endY}`;
+    const largeArcFlag = arcAngle > Math.PI ? 1 : 0;
+
+    // Atualiza diretamente o path do arco sem salvar as variáveis individualmente
+    setArcPathState(
+      `M ${newStartX},${newStartY} A ${arcRadius},${arcRadius} 0 ${largeArcFlag},1 ${newEndX},${newEndY}`
+    );
+  }, [center, margin, text]);
+
+  // Renderização condicional para evitar hidratação incorreta
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Renderiza um placeholder no servidor ou no primeiro render do cliente
+  if (!isMounted) {
+    return (
+      <div
+        style={{
+          position: "relative",
+          width: `${size}px`,
+          height: `${size}px`,
+          borderRadius: "50%",
+          overflow: "hidden",
+        }}
+      >
+        <Image
+          src={image}
+          alt="profile"
+          fill
+          unoptimized
+          style={{
+            objectFit: "cover",
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -79,17 +115,22 @@ export const CircleStamp = ({
         }}
       >
         <defs>
-          <path id="arcPath" d={arcPath} />
+          <path id="arcPath" d={arcPathState} />
         </defs>
         {/* Desenha o arco (o background para o texto) */}
         <path
-          d={arcPath}
+          d={arcPathState}
           fill="none"
           stroke={arcBackgroundColor}
           strokeWidth={strokeWidth}
         />
         {/* Adiciona o texto seguindo o arco */}
-        <text fill={textColor} fontSize="24" fontWeight="bold">
+        <text
+          fill={textColor}
+          fontSize="24"
+          fontWeight="bold"
+          dy="10" // Desloca o texto para cima em 10 unidades
+        >
           <textPath href="#arcPath" startOffset="50%" textAnchor="middle">
             {text}
           </textPath>
@@ -98,3 +139,11 @@ export const CircleStamp = ({
     </div>
   );
 };
+
+// Exporta uma versão do componente que será carregada apenas no cliente
+// com renderização somente do lado do cliente
+const CircleStamp = dynamic(() => Promise.resolve(CircleStampContent), {
+  ssr: false,
+});
+
+export { CircleStamp };
