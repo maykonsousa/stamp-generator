@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useLayoutEffect, useState, useMemo } from "react";
 
 interface CircleStampProps {
   imageUrl: string;
@@ -15,7 +15,7 @@ interface CircleStampProps {
 
 export const CircleStamp: React.FC<CircleStampProps> = ({
   imageUrl,
-  text = "#OPENTOWORK",
+  text = "#feliz",
   size = 400,
   textBackgroundColor = "#0A66C2",
   textColor = "#FFFFFF",
@@ -29,19 +29,23 @@ export const CircleStamp: React.FC<CircleStampProps> = ({
   const [textLength, setTextLength] = useState<number | null>(null);
   const textHeight = fontSize * lineHeight;
 
-  useEffect(() => {
+  // Usamos useLayoutEffect para medir o texto antes da pintura da tela
+  useLayoutEffect(() => {
     if (textPathRef.current) {
       const length = textPathRef.current.getComputedTextLength();
       setTextLength(length);
     }
   }, [text, fontSize, fontFamily]);
 
-  const generateArcPath = (radiusOffset: number = 0) => {
-    if (!textLength) return "";
+  // Função refatorada para calcular os dados do arco, incluindo pontos e path
+  const generateArcData = (radiusOffset: number = 0) => {
+    if (!textLength) return null;
 
     const radius = size / 2;
+    // O raio do arco é ajustado para que o comprimento se adeque ao texto
     const arcRadius = radius * 0.85 - radiusOffset;
-    const arcAngle = (textLength / arcRadius) * 0.9;
+    // Calcula o ângulo do arco baseado no comprimento do texto
+    const arcAngle = (textLength / arcRadius) * 0.9; // ajuste o fator se necessário
 
     const baseAngle = textPosition === "bottom" ? Math.PI : 0;
     const startAngle = baseAngle + (Math.PI - arcAngle) / 2;
@@ -55,11 +59,54 @@ export const CircleStamp: React.FC<CircleStampProps> = ({
     const largeArcFlag = arcAngle > Math.PI ? 1 : 0;
     const sweepFlag = textPosition === "bottom" ? 0 : 1;
 
-    return `M ${startX},${startY} A ${arcRadius},${arcRadius} 0 ${largeArcFlag},${sweepFlag} ${endX},${endY}`;
+    const path = `M ${startX},${startY} A ${arcRadius},${arcRadius} 0 ${largeArcFlag},${sweepFlag} ${endX},${endY}`;
+
+    return { path, startX, startY, endX, endY, arcRadius, arcAngle };
   };
+
+  // Memorizamos os cálculos do arco para o fundo e para o caminho do texto
+  const arcData = useMemo(
+    () => generateArcData(0),
+    [textLength, size, textPosition, text]
+  );
+  const textArcData = useMemo(
+    () => generateArcData((textHeight + textPadding * 2) / 2),
+    [textLength, size, textPosition, text, textHeight, textPadding]
+  );
 
   return (
     <svg width={size} height={size} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        {/* Gradiente para as pontas do arco */}
+        {arcData && (
+          <linearGradient
+            id="arcGradient"
+            gradientUnits="userSpaceOnUse"
+            x1={arcData.startX}
+            y1={arcData.startY}
+            x2={arcData.endX}
+            y2={arcData.endY}
+          >
+            <stop offset="0%" stopColor={textBackgroundColor} stopOpacity="0" />
+            <stop
+              offset="10%"
+              stopColor={textBackgroundColor}
+              stopOpacity="1"
+            />
+            <stop
+              offset="90%"
+              stopColor={textBackgroundColor}
+              stopOpacity="1"
+            />
+            <stop
+              offset="100%"
+              stopColor={textBackgroundColor}
+              stopOpacity="0"
+            />
+          </linearGradient>
+        )}
+      </defs>
+
       {/* Círculo de fundo branco */}
       <circle cx={size / 2} cy={size / 2} r={size / 2} fill="#FFFFFF" />
 
@@ -92,26 +139,21 @@ export const CircleStamp: React.FC<CircleStampProps> = ({
       )}
 
       {/* Renderização final */}
-      {textLength && (
+      {textLength && arcData && textArcData && (
         <>
-          {/* Fundo do texto - altura baseada no lineHeight */}
+          {/* Arco de fundo que se ajusta ao texto com degradê nas pontas */}
           <path
-            d={generateArcPath()}
-            stroke={textBackgroundColor}
+            d={arcData.path}
+            stroke={`url(#arcGradient)`}
             strokeWidth={textHeight + textPadding * 2}
             strokeLinecap="round"
             fill="none"
           />
 
-          {/* Caminho para o texto (centralizado no fundo) */}
-          <path
-            id="textPath"
-            d={generateArcPath((textHeight + textPadding * 2) / 2)}
-            fill="none"
-            stroke="none"
-          />
+          {/* Caminho para o texto, ajustado para centralização vertical */}
+          <path id="textPath" d={textArcData.path} fill="none" stroke="none" />
 
-          {/* Texto curvado */}
+          {/* Texto curvado, centralizado no arco */}
           <text
             fill={textColor}
             style={{
