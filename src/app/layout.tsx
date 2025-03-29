@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import { DefaultLayoutContainer, Main, PageContainer } from "./layout.styles";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Analytics } from "@/components/Analytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_METADATA_URL ?? ""),
@@ -34,6 +35,13 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR">
       <ThemeProvider>
+        <head>
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9591811085706785"
+            crossOrigin="anonymous"
+          ></script>
+        </head>
         <body>
           <PageContainer>
             <DefaultLayoutContainer>
@@ -42,6 +50,7 @@ export default async function RootLayout({
               <Footer />
             </DefaultLayoutContainer>
           </PageContainer>
+          <Analytics />
         </body>
       </ThemeProvider>
     </html>
