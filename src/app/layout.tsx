@@ -35,7 +35,13 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR">
       <ThemeProvider>
-        <head />
+        <head>
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9591811085706785"
+            crossOrigin="anonymous"
+          ></script>
+        </head>
         <body>
           <PageContainer>
             <DefaultLayoutContainer>
