@@ -2,7 +2,6 @@ import { adminDb } from './firebase-admin';
 
 const COLLECTION_NAME = process.env.FIREBASE_COLLECTION || 'template';
 
-// Função para gerar um código curto único
 function generateShortCode(length: number = 8): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';

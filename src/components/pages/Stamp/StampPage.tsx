@@ -96,7 +96,6 @@ function StampPageContent() {
   const handleDownload = async () => {
     if (imageContainerRef.current) {
       try {
-        // Depois faz o download
         const canvas = await html2canvas(imageContainerRef.current, {
           backgroundColor: null,
           useCORS: true,

@@ -71,7 +71,6 @@ export function Header() {
           >
             <Link
               sx={{
-                //nao quebrar a linha
                 whiteSpace: "nowrap",
                 width: "100%",
                 flexWrap: "nowrap",

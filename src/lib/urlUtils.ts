@@ -4,13 +4,11 @@ export function encodeUrl(params: URLSearchParams): string {
   const textColor = params.get('textColor') || '';
   const format = params.get('format') || '';
 
-  // Codifica cada parâmetro separadamente
   const encodedStamp = encodeURIComponent(stamp);
   const encodedBgColor = encodeURIComponent(bgColor);
   const encodedTextColor = encodeURIComponent(textColor);
   const encodedFormat = encodeURIComponent(format);
 
-  // Cria uma string compacta
   return `${encodedStamp}-${encodedBgColor}-${encodedTextColor}-${encodedFormat}`;
 }
 

@@ -9,12 +9,10 @@ if (!getApps().length) {
       throw new Error('FIREBASE_PRIVATE_KEY não está definida');
     }
 
-    // Remove possíveis aspas extras e processa as quebras de linha
     privateKey = privateKey
-      .replace(/^["']|["']$/g, '') // Remove aspas no início e fim
-      .replace(/\\n/g, '\n');      // Substitui \n por quebras de linha reais
+      .replace(/^["']|["']$/g, '')
+      .replace(/\\n/g, '\n');
 
-    // Verifica se a chave começa com "-----BEGIN PRIVATE KEY-----"
     if (!privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
       throw new Error('Formato inválido da chave privada');
     }

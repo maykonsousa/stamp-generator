@@ -44,7 +44,6 @@ export function CropUpload({
   const { width, height } = sizeEnum[typeImg];
   const { setValue, control } = useFormContext();
 
-  // Cálculo de dimensões responsivas
   const responsiveWidth = isMobile
     ? Math.min(width, window.innerWidth - 40)
     : width;
