@@ -96,7 +96,7 @@ export function LandingPage() {
               <Box
                 component="img"
                 src="/images/example1.png"
-                alt="Exemplo de carimbo"
+                alt="Exemplo de selo"
                 sx={{
                   width: "100%",
                   maxWidth: "400px",
@@ -172,7 +172,7 @@ export function LandingPage() {
                 Upload de Imagens
               </Typography>
               <Typography sx={{ fontSize: { xs: "0.9rem", md: "1rem" } }}>
-                Faça upload de suas próprias imagens para adicionar carimbos
+                Faça upload de suas próprias imagens para adicionar selos
                 personalizados.
               </Typography>
             </CardContent>
@@ -288,7 +288,6 @@ export function LandingPage() {
         </Box>
       </Container>
 
-      
       <Box sx={{ bgcolor: "background.paper", py: { xs: 5, md: 8 } }}>
         <Container maxWidth="lg">
           <Typography
@@ -379,7 +378,7 @@ export function LandingPage() {
                         variant="h6"
                         sx={{ fontSize: { xs: "1.1rem", md: "1.25rem" } }}
                       >
-                        Personalize seu carimbo
+                        Personalize seu selo
                       </Typography>
                     }
                     secondary={
@@ -389,7 +388,7 @@ export function LandingPage() {
                         sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}
                       >
                         Escolha o formato, cor, texto e posicionamento do seu
-                        carimbo.
+                        selo.
                       </Typography>
                     }
                   />
@@ -422,9 +421,9 @@ export function LandingPage() {
                         component="span"
                         sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}
                       >
-                        Baixe a imagem com o carimbo em alta resolução ou
-                        compartilhe o seu carimbo para que outras pessoas possam
-                        usar.
+                        Baixe a imagem com o selo em alta resolução ou
+                        compartilhe o seu template para que outras pessoas
+                        possam usar.
                       </Typography>
                     }
                   />
@@ -452,7 +451,6 @@ export function LandingPage() {
         </Container>
       </Box>
 
-      
       <Container maxWidth="lg" sx={{ my: { xs: 5, md: 8 } }}>
         <Typography
           variant="h3"
@@ -601,7 +599,6 @@ export function LandingPage() {
         </Box>
       </Container>
 
-      
       <Box
         sx={{
           bgcolor: "secondary.main",
@@ -617,7 +614,7 @@ export function LandingPage() {
             gutterBottom
             sx={{ fontSize: { xs: "1.8rem", sm: "2.2rem", md: "2.5rem" } }}
           >
-            Pronto para criar seus carimbos personalizados?
+            Pronto para criar seus selos personalizados?
           </Typography>
           <Typography
             variant="h6"
@@ -648,7 +645,6 @@ export function LandingPage() {
         </Container>
       </Box>
 
-      
       <Container maxWidth="md" sx={{ my: { xs: 5, md: 8 } }}>
         <Typography
           variant="h3"
