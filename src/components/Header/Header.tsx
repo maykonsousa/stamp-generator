@@ -37,6 +37,11 @@ export function Header() {
       isActive: path === "/",
     },
     {
+      label: "Meu selo",
+      href: "/stamp",
+      isActive: path === "/stamp",
+    },
+    {
       label: "Sobre o autor",
       href: "/about",
       isActive: path === "/about",

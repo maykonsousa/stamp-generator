@@ -66,9 +66,7 @@ export const Main = styled(Box)`
   height: 100%;
   flex: 1;
   width: 100%;
-  padding: 90px 2rem;
-  margin-top: 70px;
-
+  margin-top: 90px;
   @media (max-width: 768px) {
     padding: 0 8px;
   }

@@ -1,6 +1,8 @@
 # Gerador de Carimbos
 
-Este é um projeto desenvolvido com Next.js que permite a criação e gerenciamento de carimbos digitais.
+Este é um projeto desenvolvido com Next.js que permite a criação e gerenciamento de selos para imagens de perfil e avatars.
+
+![Gerador de Carimbos](/public/images/readme.png)
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -8,22 +10,21 @@ Este é um projeto desenvolvido com Next.js que permite a criação e gerenciame
 - TypeScript - Superset JavaScript com tipagem estática
 - [Material-UI (MUI)](https://mui.com/) - Biblioteca de componentes React
 - [Emotion](https://emotion.sh/) - Biblioteca para estilização CSS-in-JS
-- [Firebase](https://firebase.google.com/) - Plataforma de desenvolvimento backend
-  - Firestore - Banco de dados NoSQL para armazenamento dos carimbos e geração de URLs encurtadas
-- ESLint - Linter para JavaScript/TypeScript
+- [Firebase (firestore)](https://firebase.google.com/) - Banco de dados NoSQL para armazenamento dos carimbos e geração de URLs encurtadas
+- [ESLint](https://eslint.org) - Linter para JavaScript/TypeScript utilizando o padrão AirBNB
 
 ## 📋 Pré-requisitos
 
 - Node.js 18.x ou superior
 - Yarn ou npm
-- Conta no Firebase com projeto configurado
+- Conta no Firebase com projeto configurado e um firestore []()
 
 ## 🛠️ Instalação
 
 1. Clone o repositório:
 
 ```bash
-git clone [URL_DO_REPOSITÓRIO]
+git clone https://github/com/maykonsousa/stamp-generator.git
 cd stamp-generator
 ```
 
@@ -66,7 +67,12 @@ POST api/shorten onde salvamos os parametros usados para a confecção do carimb
 
 ```JSON
 {
-""text"", backgroundColor, strokeColor, format
+  "text":"texto do selo",
+  "backgroundColor": "cor do fundo escolhido",
+  "strokeColor":"cor da fonte",
+  "format": "circle" //circle | square
+
+
 }
 
 ```
@@ -118,4 +124,4 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 📞 Suporte
 
-Para suporte, envie um email para [EMAIL_SUPORTE] ou abra uma issue no repositório.
+para suporte, me adicione no [linkedin](https://linkedin.com/in/maykonsousa) e mande uma mensagem

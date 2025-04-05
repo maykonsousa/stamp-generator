@@ -9,7 +9,7 @@ import {
   StampContainer,
   StampText,
   Title,
-} from "./HomePage.style";
+} from "./StampPage.style";
 import {
   Box,
   Button,
@@ -46,7 +46,7 @@ interface IFormValues {
   format: "circle" | "square";
 }
 
-function HomePageContent() {
+function StampPageContent() {
   const searchParams = useSearchParams();
   const [showShareSuccess, setShowShareSuccess] = React.useState(false);
 
@@ -367,7 +367,7 @@ function HomePageContent() {
   );
 }
 
-export const HomePage = () => {
+export const StampPage = () => {
   return (
     <Suspense
       fallback={
@@ -383,7 +383,7 @@ export const HomePage = () => {
         </Box>
       }
     >
-      <HomePageContent />
+      <StampPageContent />
     </Suspense>
   );
 };
