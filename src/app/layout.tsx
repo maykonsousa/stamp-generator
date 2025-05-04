@@ -9,14 +9,16 @@ import { Analytics } from "@/components/Analytics";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_METADATA_URL ?? ""),
-  title: "Stamp Generator",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_METADATA_URL ?? "https://meuselo.com"
+  ),
+  title: "Meu Selo - Crie seu selo personalizado para redes sociais",
   description:
     "Crie seu próprio selo personalizado para usar em seu avatar no Linkedin ou qualquer outra rede social ou plataforma.",
   keywords:
     "selo personalizado, foto de perfil, linkedin, avatar personalizado, carimbo virtual",
   openGraph: {
-    title: "Stamp Generator",
+    title: "Meu Selo - Personalize seu avatar",
     description:
       "Crie seu próprio selo personalizado para usar em seu avatar no Linkedin ou qualquer outra rede social ou plataforma.",
     type: "website",
@@ -26,13 +28,13 @@ export const metadata: Metadata = {
         url: "/newMetadataImg.webp",
         width: 1200,
         height: 627,
-        alt: "Stamp Generator",
+        alt: "Meu Selo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Stamp Generator",
+    title: "Meu Selo - Personalize seu avatar",
     description:
       "Crie seu próprio selo personalizado para usar em seu avatar no Linkedin ou qualquer outra rede social ou plataforma.",
     images: ["/newMetadataImg.webp"],

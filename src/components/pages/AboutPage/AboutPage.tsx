@@ -30,7 +30,6 @@ export const AboutPage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      
       <Box sx={{ mb: 6 }}>
         <Grid container spacing={4} alignItems="center">
           <Grid
@@ -142,16 +141,15 @@ export const AboutPage = () => {
 
       <Divider sx={{ my: 4 }} />
 
-      
       <Box sx={{ mb: 6 }}>
         <Typography variant="h4" component="h2" gutterBottom>
-          Sobre o Stamp Generator
+          Sobre o Meu Selo
         </Typography>
         <Typography variant="body1" paragraph>
-          O Stamp Generator é uma ferramenta que permite adicionar selos
-          personalizados às suas fotos de perfil. Ideal para destacar status
-          profissional, causas apoiadas ou qualquer mensagem que queira
-          compartilhar em suas redes sociais.
+          O Meu Selo é uma ferramenta que permite adicionar selos personalizados
+          às suas fotos de perfil. Ideal para destacar status profissional,
+          causas apoiadas ou qualquer mensagem que queira compartilhar em suas
+          redes sociais.
         </Typography>
         <Typography variant="body1" paragraph>
           O projeto foi desenvolvido utilizando Next.js, TypeScript, Material UI
@@ -162,7 +160,6 @@ export const AboutPage = () => {
 
       <Divider sx={{ my: 4 }} />
 
-      
       <Box>
         <Typography variant="h4" component="h2" gutterBottom>
           Outros Projetos

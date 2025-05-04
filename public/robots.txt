@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://www.stamp-generator.com/sitemap.xml 
+Sitemap: https://meuselo.com/sitemap.xml 
