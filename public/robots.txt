@@ -1,0 +1,6 @@
+# Permitir todos os robôs de busca a acessar todo o site
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.stamp-generator.com/sitemap.xml 

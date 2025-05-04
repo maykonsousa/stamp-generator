@@ -16,6 +16,7 @@ import {
 import { usePathname } from "next/navigation";
 import * as React from "react";
 import { ThemeToggle } from "../ThemeToggle";
+import Image from "next/image";
 
 interface IPageMenu {
   label: string;
@@ -70,18 +71,10 @@ export function Header() {
             }}
           >
             <Link
-              sx={{
-                whiteSpace: "nowrap",
-                width: "100%",
-                flexWrap: "nowrap",
-                fontSize: "1rem",
-                fontWeight: "bold",
-                color: "inherit",
-                textDecoration: "none",
-              }}
               href="/"
+              sx={{ width: "100%", height: "100%", lineHeight: 0 }}
             >
-              STAMP GENERATOR
+              <Image src="images/logo.svg" alt="Logo" width={150} height={45} />
             </Link>
           </Box>
 
@@ -141,15 +134,10 @@ export function Header() {
             }}
           >
             <Link
-              sx={{
-                fontSize: "1.25rem",
-                textDecoration: "none",
-                fontWeight: "bold",
-                color: "inherit",
-              }}
               href="/"
+              sx={{ width: "100%", height: "100%", lineHeight: 0 }}
             >
-              STAMP GENERATOR
+              <Image src="images/logo.svg" alt="Logo" width={150} height={30} />
             </Link>
           </Box>
 
