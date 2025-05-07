@@ -20,6 +20,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import CropIcon from "@mui/icons-material/Crop";
 import Link from "next/link";
 import Image from "next/image";
+import { Adsense } from "@/components/Adsense";
 
 export function LandingPageStaticContent() {
   return (
@@ -111,6 +112,10 @@ export function LandingPageStaticContent() {
           </Stack>
         </Container>
       </Paper>
+
+      <Container maxWidth="lg" sx={{ my: 3 }}>
+        <Adsense adSlot="1234567890" adFormat="horizontal" />
+      </Container>
 
       <Container
         maxWidth="lg"
@@ -287,6 +292,10 @@ export function LandingPageStaticContent() {
         </Box>
       </Container>
 
+      <Container maxWidth="lg" sx={{ my: 3 }}>
+        <Adsense adSlot="0987654321" adFormat="rectangle" />
+      </Container>
+
       <Box
         component="section"
         sx={{ bgcolor: "background.paper", py: { xs: 5, md: 8 } }}
@@ -455,6 +464,10 @@ export function LandingPageStaticContent() {
           </Stack>
         </Container>
       </Box>
+
+      <Container maxWidth="lg" sx={{ my: 3 }}>
+        <Adsense adSlot="5678901234" adFormat="horizontal" />
+      </Container>
 
       <Container
         maxWidth="lg"

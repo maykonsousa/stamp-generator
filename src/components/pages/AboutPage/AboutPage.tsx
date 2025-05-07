@@ -23,6 +23,7 @@ import {
   LinkedIn,
   WhatsApp,
 } from "@mui/icons-material";
+import { Adsense } from "@/components/Adsense";
 
 export const AboutPage = () => {
   const theme = useTheme();
@@ -139,11 +140,21 @@ export const AboutPage = () => {
         </Grid>
       </Box>
 
+      {/* Anúncio após a seção de introdução */}
+      <Box sx={{ width: "100%", my: 3 }}>
+        <Adsense adSlot="3692581470" adFormat="horizontal" />
+      </Box>
+
       <Divider sx={{ my: 4 }} />
 
       <Box sx={{ mb: 6 }}>
-        <Typography variant="h4" component="h2" gutterBottom>
-          Sobre o Meu Selo
+        <Typography
+          variant="h4"
+          component="h2"
+          gutterBottom
+          sx={{ mb: 3, fontWeight: "medium" }}
+        >
+          Sobre o Projeto
         </Typography>
         <Typography variant="body1" paragraph>
           O Meu Selo é uma ferramenta que permite adicionar selos personalizados
@@ -156,6 +167,11 @@ export const AboutPage = () => {
           e outras tecnologias modernas para garantir uma experiência de usuário
           fluida e responsiva em qualquer dispositivo.
         </Typography>
+      </Box>
+
+      {/* Anúncio após a seção sobre o projeto */}
+      <Box sx={{ width: "100%", my: 3 }}>
+        <Adsense adSlot="7418529630" adFormat="rectangle" />
       </Box>
 
       <Divider sx={{ my: 4 }} />
@@ -211,6 +227,29 @@ export const AboutPage = () => {
             </Grid>
           ))}
         </Grid>
+      </Box>
+
+      <Divider sx={{ my: 4 }} />
+
+      <Box sx={{ mb: 6 }}>
+        <Typography
+          variant="h4"
+          component="h2"
+          gutterBottom
+          sx={{ mb: 3, fontWeight: "medium" }}
+        >
+          Tecnologias Utilizadas
+        </Typography>
+        <Typography variant="body1" paragraph>
+          O projeto foi desenvolvido utilizando Next.js, TypeScript, Material UI
+          e outras tecnologias modernas para garantir uma experiência de usuário
+          fluida e responsiva em qualquer dispositivo.
+        </Typography>
+      </Box>
+
+      {/* Anúncio após a lista de tecnologias */}
+      <Box sx={{ width: "100%", my: 3 }}>
+        <Adsense adSlot="8529637410" adFormat="horizontal" />
       </Box>
     </Container>
   );

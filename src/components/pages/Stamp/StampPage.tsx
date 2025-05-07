@@ -37,6 +37,7 @@ import { TextInput } from "@/components/TextInput";
 import html2canvas from "html2canvas";
 import { useSearchParams } from "next/navigation";
 import { CircleStamp } from "@/components/CircleStamp";
+import { Adsense } from "@/components/Adsense";
 
 interface IFormValues {
   image: string;
@@ -170,6 +171,11 @@ function StampPageContent() {
         <Title variant={isMobile ? "h5" : "h4"}>
           Gere sua imagem de perfil
         </Title>
+
+        <Box sx={{ width: "100%", my: 2 }}>
+          <Adsense adSlot="2468135790" adFormat="horizontal" />
+        </Box>
+
         <BoxContainer>
           <ImageContainer
             ref={imageContainerRef}
@@ -228,6 +234,11 @@ function StampPageContent() {
             )}
           </ImageContainer>
         </BoxContainer>
+
+        <Box sx={{ width: "100%", my: 2 }}>
+          <Adsense adSlot="1357924680" adFormat="rectangle" />
+        </Box>
+
         <Typography
           variant={isMobile ? "subtitle1" : "h6"}
           fontWeight={600}
@@ -361,6 +372,10 @@ function StampPageContent() {
             Compartilhar Template
           </Button>
         </ActionContainer>
+
+        <Box sx={{ width: "100%", my: 3 }}>
+          <Adsense adSlot="9753102468" adFormat="horizontal" />
+        </Box>
       </PageContainer>
     </FormProvider>
   );
@@ -375,7 +390,7 @@ export const StampPage = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            minHeight: "100vh",
+            height: "50vh",
           }}
         >
           <CircularProgress />

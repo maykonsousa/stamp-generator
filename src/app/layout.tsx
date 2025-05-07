@@ -76,9 +76,15 @@ export default async function RootLayout({
           {/* Carrega o script do AdSense após o carregamento do conteúdo principal */}
           <Script
             id="adsbygoogle-script"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9591811085706785"
             crossOrigin="anonymous"
+            onError={(e) => {
+              console.error("Erro ao carregar o script do AdSense:", e);
+            }}
+            onLoad={() => {
+              console.log("Script do AdSense carregado com sucesso");
+            }}
           />
         </body>
       </ThemeProvider>
