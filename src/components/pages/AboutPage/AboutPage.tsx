@@ -85,53 +85,53 @@ export const AboutPage = () => {
               <IconButton
                 aria-label="github"
                 color="primary"
-                component={Link}
                 href="https://github.com/maykonsousa"
                 target="_blank"
+                component="a"
               >
                 <GitHub fontSize={isMobile ? "medium" : "large"} />
               </IconButton>
               <IconButton
                 aria-label="linkedin"
                 color="primary"
-                component={Link}
                 href="https://linkedin.com/in/maykonsousa"
                 target="_blank"
+                component="a"
               >
                 <LinkedIn fontSize={isMobile ? "medium" : "large"} />
               </IconButton>
               <IconButton
                 aria-label="instagram"
                 color="primary"
-                component={Link}
                 href="https://www.instagram.com/mykesousa/"
                 target="_blank"
+                component="a"
               >
                 <Instagram fontSize={isMobile ? "medium" : "large"} />
               </IconButton>
               <IconButton
                 aria-label="email"
                 color="primary"
-                component={Link}
                 href="mailto:maykon.sousa@hotmail.com"
+                component="a"
               >
                 <Email fontSize={isMobile ? "medium" : "large"} />
               </IconButton>
               <IconButton
                 aria-label="whatsapp"
                 color="primary"
-                component={Link}
                 href="https://wa.me/55619929432979"
                 target="_blank"
+                component="a"
               >
                 <WhatsApp fontSize={isMobile ? "medium" : "large"} />
               </IconButton>
               <IconButton
                 aria-label="Site Pessoal"
                 color="primary"
-                component={Link}
                 href="https://maykonsousa.dev.br"
                 target="_blank"
+                component="a"
               >
                 <Language fontSize={isMobile ? "medium" : "large"} />
               </IconButton>

@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -17,10 +17,10 @@
     "firebase-admin": "^13.2.0",
     "html2canvas": "^1.4.1",
     "mui-color-input": "^6.0.0",
-    "next": "15.2.4",
-    "react": "^19.0.0",
+    "next": "^16.1.0",
+    "react": "^19.2.3",
     "react-cropper": "^2.3.3",
-    "react-dom": "^19.0.0",
+    "react-dom": "^19.2.3",
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.54.2"
   },
@@ -30,7 +30,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.2.4",
+    "eslint-config-next": "^16.1.0",
     "typescript": "^5"
   }
 }

@@ -70,21 +70,21 @@ export function LandingPageStaticContent() {
                 Linkedin e outras redes sociais
               </Typography>
               <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  component={Link}
-                  href="/stamp"
-                  sx={{
-                    py: 1.5,
-                    px: 4,
-                    borderRadius: 2,
-                    fontSize: { xs: "1rem", md: "1.1rem" },
-                  }}
-                >
-                  Começar agora
-                </Button>
+                <Link href="/stamp" style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="large"
+                    sx={{
+                      py: 1.5,
+                      px: 4,
+                      borderRadius: 2,
+                      fontSize: { xs: "1rem", md: "1.1rem" },
+                    }}
+                  >
+                    Começar agora
+                  </Button>
+                </Link>
               </Box>
             </Box>
             <Box
@@ -682,21 +682,21 @@ export function LandingPageStaticContent() {
           >
             Comece agora mesmo, totalmente grátis e sem necessidade de cadastro!
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            component={Link}
-            href="/stamp"
-            sx={{
-              py: { xs: 1.25, md: 1.5 },
-              px: { xs: 3, md: 4 },
-              borderRadius: 2,
-              fontSize: { xs: "1rem", md: "1.1rem" },
-            }}
-          >
-            Criar meu selo
-          </Button>
+          <Link href="/stamp" style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              sx={{
+                py: { xs: 1.25, md: 1.5 },
+                px: { xs: 3, md: 4 },
+                borderRadius: 2,
+                fontSize: { xs: "1rem", md: "1.1rem" },
+              }}
+            >
+              Criar meu selo
+            </Button>
+          </Link>
         </Container>
       </Box>
     </Box>
