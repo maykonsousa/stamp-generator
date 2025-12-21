@@ -6,7 +6,7 @@ import { DefaultLayoutContainer, Main, PageContainer } from "./layout.styles";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Analytics } from "@/components/Analytics";
-import Script from "next/script";
+import { AdsenseScript } from "@/components/Adsense";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -74,18 +74,7 @@ export default async function RootLayout({
           <Analytics />
 
           {/* Carrega o script do AdSense após o carregamento do conteúdo principal */}
-          <Script
-            id="adsbygoogle-script"
-            strategy="afterInteractive"
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9591811085706785"
-            crossOrigin="anonymous"
-            onError={(e) => {
-              console.error("Erro ao carregar o script do AdSense:", e);
-            }}
-            onLoad={() => {
-              console.log("Script do AdSense carregado com sucesso");
-            }}
-          />
+          <AdsenseScript />
         </body>
       </ThemeProvider>
     </html>
